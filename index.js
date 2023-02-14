@@ -7,11 +7,13 @@ const app = express();
 const port = 3001;
 const productRouter = require('./router/productRouter');
 const installStatusRouter = require('./router/installStatusRouter');
+const photoCategoriRouter = require('./router/photoCategoriRouter');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use('/product', productRouter);
 app.use('/install', installStatusRouter);
+app.use('/photo', photoCategoriRouter);
 
 // app.post('/upload', upload.single('image'), (req, res) => {
 //     // 파일 업로드 처리
