@@ -10,11 +10,13 @@ const productRouter = require('./router/productRouter');
 const installStatusRouter = require('./router/installStatusRouter');
 const photoCategoriRouter = require('./router/photoCategoriRouter');
 const serviceBoardRouter = require('./router/serviceBoardRouter');
+const methodOverride = require('method-override'); //delete 등을 사용하기위한 모듈
 
 
 app.use(express.urlencoded({ extended: true })) // 폼데이터를 활용하기 위한 기능 x-www-form-urlencoded형태의 데이터를 해석
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
+app.use(methodOverride('_method'));
 app.use('/product', productRouter);
 app.use('/install', installStatusRouter);
 app.use('/photo', photoCategoriRouter);

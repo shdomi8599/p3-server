@@ -1,9 +1,10 @@
+const { v4: uuidv4 } = require('uuid');
+
 const announcement = require('../repository/announcement');
 const reference = require('../repository/reference');
-const question = require('../repository/question');
+let question = require('../repository/question');
+
 const createAt = require('../function/createAt')
-const { v4: uuidv4 } = require('uuid');
-const createData = [];
 
 module.exports = {
   findList: (req, res) => {
@@ -33,17 +34,46 @@ module.exports = {
     if (id === 'questionLength') return res.status(200).json(question.length);
   },
   addList: (req, res) => {
-    console.log(req.body)
-    const { title, content, author } = req.body
+    const { title, content, author, password } = req.body
     const data = {
       id: uuidv4(),
       title,
       content,
       author,
       createAt: createAt(),
+      password,
       view: 0
     }
-    createData.push(data)
-    return res.status(200).json(data)
-  }
+    question.unshift(data)
+    return res.status(201).json(data)
+  },
+  deleteList: (req, res) => {
+    const { id } = req.params
+    question = question.filter(x => x.id !== id)
+    return res.status(204).json(id)
+  },
+  patchList: (req, res) => {
+    const { id } = req.params
+    //서버에서 조회수 업데이트용
+    if (!isNaN(Object.keys(req.body)[0])) {
+      question = question.map(x => {
+        if (x.id === id) {
+          x.view = Number(Object.keys(req.body)[0]);
+        }
+        return x
+      })
+      return res.status(204)
+    }
+    //글 수정 작업용
+    const { title, content } = req.body
+    question = question.map(x => {
+      if (x.id === id) {
+        x.title = title;
+        x.content = content;
+      }
+      return x
+    })
+
+    return res.status(204)
+  },
 };

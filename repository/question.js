@@ -6,7 +6,8 @@ module.exports = [
         author: '박준상',
         createAt: '2012-07-19 12:52',
         view: 561,
-        link: ''
+        link: '',
+        password:'tls4878'
     },
 ]
 
